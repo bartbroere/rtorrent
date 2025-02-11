@@ -261,10 +261,11 @@ DownloadList::receive_view_input(Input type) {
   // reset ESC delay for input prompt
   set_escdelay(0);
 
-  input->bindings()['\n']      = std::bind(&DownloadList::receive_exit_input, this, type);
-  input->bindings()[KEY_ENTER] = std::bind(&DownloadList::receive_exit_input, this, type);
-  input->bindings()['\x07']    = std::bind(&DownloadList::receive_exit_input, this, INPUT_NONE); // ^G
-  input->bindings()['\x1B']    = std::bind(&DownloadList::receive_exit_input, this, INPUT_NONE); // ESC , ^[
+  input->bindings()['\n']        = std::bind(&DownloadList::receive_exit_input, this, type);
+  input->bindings()[KEY_ENTER]   = std::bind(&DownloadList::receive_exit_input, this, type);
+  input->bindings()[KEY_KPENTER] = std::bind(&DownloadList::receive_exit_input, this, type);       // Numlock Enter
+  input->bindings()['\x07']      = std::bind(&DownloadList::receive_exit_input, this, INPUT_NONE); // ^G
+  input->bindings()['\x1B']      = std::bind(&DownloadList::receive_exit_input, this, INPUT_NONE); // ESC , ^[
 
   control->ui()->enable_input(title, input, type);
 }
@@ -357,6 +358,7 @@ DownloadList::setup_keys() {
   m_bindings[KEY_BACKSPACE] = std::bind(&DownloadList::receive_view_input, this, INPUT_LOAD_DEFAULT);
   m_bindings['\n']          = std::bind(&DownloadList::receive_view_input, this, INPUT_LOAD_MODIFIED);
   m_bindings[KEY_ENTER]     = std::bind(&DownloadList::receive_view_input, this, INPUT_LOAD_MODIFIED);
+  m_bindings[KEY_KPENTER]   = std::bind(&DownloadList::receive_view_input, this, INPUT_LOAD_MODIFIED);
   m_bindings['\x0F']        = std::bind(&DownloadList::receive_view_input, this, INPUT_CHANGE_DIRECTORY);
   m_bindings['X' - '@']     = std::bind(&DownloadList::receive_view_input, this, INPUT_COMMAND);
   m_bindings['F']           = std::bind(&DownloadList::receive_view_input, this, INPUT_FILTER);
